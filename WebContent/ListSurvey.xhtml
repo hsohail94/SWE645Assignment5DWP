@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<h:head>
+		<title>List of all students</title>
+		<h:outputStylesheet library="css" name="all-students.css"/>
+	</h:head>
+	
+	<h:body>
+		<h1>All students who have taken the survey</h1>
+		
+		<p:dataTable value="#{studentSurveyBean.allStudents}" var="student">
+		<!-- styleClass="student-table"
+		headerClass="student-table-header"
+		rowClasses="student-table-odd-row,student-table-even-row"  -->
+    		
+    		<p:column headerText="firstname">
+    			<h:outputText value="#{student.firstname}" />
+    		</p:column>
+    		
+    		<p:column headerText="lastname">
+    			<h:outputText value="#{student.lastname}" />
+    		</p:column>
+    		
+    		<p:column headerText="streetaddress">
+    			<h:outputText value="#{student.streetaddress}" />
+    		</p:column>
+    		
+    		<p:column headerText="city">
+    			<h:outputText value="#{student.city}" />
+    		</p:column>
+    		
+    		<p:column headerText="state">
+    			<h:outputText value="#{student.state}" />
+    		</p:column>
+    		
+    		<p:column headerText="zipcode">
+    			<h:outputText value="#{student.zipcode}" />
+    		</p:column>
+    		
+    		<p:column headerText="phonenumber">
+    			<h:outputText value="#{student.phonenumber}" />
+    		</p:column>
+    		
+    		<p:column headerText="surveydate">
+    			<h:outputText value="#{student.surveydate}" />
+    		</p:column>
+    		
+    		<p:column headerText="email address">
+    			<h:outputText value="#{student.emailaddress}" />
+    		</p:column>
+    		
+    		<p:column headerText="things most liked">
+    			<h:outputText value="#{student.getThingsMostLikedString()}" />
+    		</p:column>
+    		
+    		<p:column headerText="howFoundOut">
+    			<h:outputText value="#{student.howFoundOut}" />
+    		</p:column>
+    		
+    		<p:column headerText="recommendation">
+    			<h:outputText value="#{student.recommendation}" />
+    		</p:column>
+    			
+    	</p:dataTable>
+    	
+    	<h:outputLink value="index.xhtml" >
+			Back to survey page
+		</h:outputLink>
+		
+	</h:body>
+
+</html>

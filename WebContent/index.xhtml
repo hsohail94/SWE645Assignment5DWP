@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<h:head>
+		<title>Student Survey Form</title>
+	</h:head>
+	
+	<h:body>
+		<h:outputScript library="js" name="zipcode-ajax.js" />
+		<h:form id="survey_form">
+		
+			<p:panel id="survey_panel" header="Student Survey Form">
+				<p:messages id="survey_messages"/>
+								
+					<!-- Firstname -->
+					<p:outputLabel for="firstname" value="First name:"/>
+					<p:inputText id="firstname" value="#{studentSurveyBean.student.firstname}" required="true" requiredMessage="first name is required" label="Firstname" maxLength="15">
+						<f:ajax event="keyup" render="firstnameMessage"/>
+					</p:inputText>
+					<p:message id="firstnameMessage" for="firstname" diplay="text"/>
+					<br/> <br/>
+					
+					<!-- lastname -->
+					<p:outputLabel for="lastname" value="Last name:"/> 
+					<p:inputText id="lastname" value="#{studentSurveyBean.student.lastname}" required="true" requiredMessage="last name is required" label="lastname" maxLength="15">
+						<f:ajax event="keyup" render="lastnameMessage"/>
+					</p:inputText>
+					<p:message id="lastnameMessage" for="lastname" diplay="text"/>
+										<br/> <br/>
+					
+					
+					<!-- streetaddress -->
+					<p:outputLabel for="streetaddress" value="Street address:" />
+					<p:inputText id="streetaddress" value="#{studentSurveyBean.student.streetaddress}" required="true" requiredMessage="address is required" label="streetaddress" maxLength="30">
+						<f:validator validatorId="streetAddressValidator"/>
+						<f:ajax event="keyup" render="streetAddressMessage"/>
+					</p:inputText>
+					<p:message id="streetAddressMessage" for="streetaddress" diplay="text"/>
+										<br/> <br/>
+							
+					<!-- zipcode -->
+					<p:outputLabel for="zipcode" value="Zipcode:" />
+					<p:inputText id="zipcode" value="#{studentSurveyBean.student.zipcode}" required="true" requiredMessage="zipcode is required" label="zipcode">
+						<f:validateLength for="zipcode" minimum="5" maximum="5"/>
+						<!--  <f:ajax event="keyup" render="zipcodeMessage" /> -->
+						<f:ajax event="blur" render="city state" onevent="fillCityAndState" />
+					</p:inputText>
+					<p:message id="zipcodeMessage" for="zipcode" diplay="text"/>
+										<br/> <br/>
+					
+					
+					<!-- city -->
+					<p:outputLabel for="city" value="City:" />
+					<p:inputText id="city" value="#{studentSurveyBean.student.city}" required="true" requiredMessage="city is required" label="city" readonly="true" />
+					<p:message id="cityMessage" for="city" diplay="text"/>
+										<br/> <br/>
+					
+					
+					<!-- state -->
+					<p:outputLabel for="state" value="State:" />
+					<p:inputText id="state" value="#{studentSurveyBean.student.state}" required="true" requiredMessage="state is required" label="state" readonly="true" />
+					<p:message id="stateMessage" for="state" diplay="text"/>
+										<br/> <br/>
+	
+					
+					<!-- phonenumber
+					<p:outputLabel for="phonenumber" value="Phone:" />
+					<p:inputText id="phonenumber" value="#{studentSurveyBean.student.phonenumber}" required="true" requiredMessage="phone is required" label="phonenumber" maxLength="13">
+						<f:validator validatorId="phoneNumberValidator"/>
+						<f:ajax event="keyup" render="phoneNumberMessage"/>
+					</p:inputText>
+					<p:message id="phoneNumberMessage" for="phonenumber" diplay="text"/> -->
+					<p:outputLabel for="phonenumber" value="Phone:" />
+					<p:inputMask id="phonenumber" value="#{studentSurveyBean.student.phonenumber}" required="true" requiredMessage="phone is required" label="phonenumber" mask="(999)-999-9999">
+						<f:validator validatorId="phoneNumberValidator"/>
+						<f:ajax event="keyup" render="phoneNumberMessage"/>
+					</p:inputMask>
+										<br/> <br/>
+					
+					
+	
+					<!-- emailaddress -->
+					<p:outputLabel for="emailaddress" value="Email:" />
+					<p:inputText id="emailaddress" value="#{studentSurveyBean.student.emailaddress}" required="true" requiredMessage="email is required" label="emailaddress">
+						<f:validator validatorId="emailAddressValidator"/>
+						<f:ajax event="keyup" render="emailAddressMessage"/>
+					</p:inputText>
+					<p:message id="emailAddressMessage" for="emailaddress" diplay="text"/>
+										<br/> <br/>
+					
+					<!-- semester start date -->
+					<p:outputLabel for="startdate" value="Semester start date:" />
+					<p:calendar id="startdate" value="#{studentSurveyBean.student.startdate}"  required="true" requiredMessage="start date is required"/>
+					<p:message id="startDateMessage" for="startdate" diplay="text"/>
+										<br/> <br/>
+					
+					<!-- surveydate 
+					<p:outputLabel for="surveydate" value="Survey date:" />
+					<p:inputText id="surveydate" value="#{studentSurveyBean.student.surveydate}" required="true" requiredMessage="date is required" label="surveydate">
+						<f:validator validatorId="surveyDateValidator"/>
+						<f:ajax event="keyup" render="surveyDateMessage"/>
+					</p:inputText>
+					<p:message id="surveyDateMessage" for="surveydate" diplay="text"/> -->
+					<p:outputLabel for="surveydate" value="Survey date:" />
+					<p:calendar id="surveydate" value="#{studentSurveyBean.student.surveydate}" required="true" requiredMessage="survey date is required">
+						<f:attribute name="startDate" value="#{studentSurveyBean.student.startdate}" />
+						<f:validator validatorId="startDateValidator"/>
+						<f:ajax event="keyup" render="startDateMessage"/>
+					</p:calendar>
+										<br/> <br/>
+					
+					Things most liked about the university: 
+					<p:selectManyCheckbox id="thingsMostLiked" value="#{studentSurveyBean.student.thingsMostLiked}">
+						<f:selectItem itemValue="students" itemLabel="students" />
+						<f:selectItem itemValue="location" itemLabel="location" />
+						<f:selectItem itemValue="campus" itemLabel="campus" />
+						<f:selectItem itemValue="atmosphere" itemLabel="atmopshere" />
+						<f:selectItem itemValue="sports" itemLabel="sports" />
+					</p:selectManyCheckbox>
+					<br/> <br/>
+					
+					How did you find out about the university?
+					<p:selectOneRadio id="howFoundOut" value="#{studentSurveyBean.student.howFoundOut}">
+						<f:selectItem itemValue="friends" itemLabel="friends" />
+						<f:selectItem itemValue="internet" itemLabel="internet" />
+						<f:selectItem itemValue="tv" itemLabel="tv" />
+						<f:selectItem itemValue="other" itemLabel="other" />	
+					</p:selectOneRadio>
+					<br/> <br/>
+					
+					<!--  
+					How likely are you to recommend this school to others?
+					<h:selectOneMenu id="recommendation" value="#{studentSurveyBean.student.recommendation}">
+						<f:selectItem itemValue="Very Likely" itemLabel="Very Likely"/>
+						<f:selectItem itemValue="Likely" itemLabel="Likely"/>
+						<f:selectItem itemValue="Unlikely" itemLabel="Unlikely"/>
+					</h:selectOneMenu>
+					<br/> <br/> -->
+					<p:outputLabel for="recommendation" value="How likely are you to recommend this school to others?" />
+					<p:autoComplete id="recommendation" value="#{studentSurveyBean.student.recommendation}"
+									completeMethod="#{studentSurveyBean.getRecommendationOptions()}" />
+					<br/> <br/>
+					
+					<p:outputLabel for="raffle" value="Enter at least ten numbers between 1 and 100 here:" />
+					<p:inputText id="raffle" value="#{studentSurveyBean.student.raffle}" label="raffle" required="true" requiredMessage="Please enter at least ten numbers between 1 and 100">
+						<f:validator validatorId="raffleValidator"/>
+						<f:ajax event="keyup" render="raffleMessage"/>
+					</p:inputText>
+					<p:message for="raffle" diplay="text"/>
+					<br/> <br/>
+					
+					Additional comments: <br/>
+					<h:inputTextarea id="additionalComments" rows="6" cols="33" />
+					<br/> <br/>
+								
+				<p:commandButton value="Submit" action="#{studentSurveyBean.submit}"/>
+				<p:commandButton type="reset" value="Clear" actionListener="#{studentSurveyBean.clearAndReload}"/>
+				
+				
+			</p:panel>
+			
+			<h:outputLink value="ListSurvey.xhtml" >
+				Click here to see who else has taken the survey!
+			</h:outputLink>
+				
+		</h:form>
+	</h:body>
+
+</html>
