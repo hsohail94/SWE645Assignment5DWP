@@ -17,9 +17,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="STUDENT")
-public class StudentEntityManager {
+public class StudentEntity {
 	
-	public StudentEntityManager () {}
+	public StudentEntity () {}
 	
 	@Id
 	@Column(name="id")
